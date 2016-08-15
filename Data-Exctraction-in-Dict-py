@@ -1,0 +1,31 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# Verinin sozluk icerisine alip, elemanlarin kolon adiyla cagirilmasi
+import psycopg2
+import psycopg2.extras
+import sys
+
+
+con = None
+
+try:
+     
+    psycopg2.connect(host='Host_IP_Adress',dbname='Database_name',user='username',password='password')   
+    cursor = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute("Sql Query")
+    
+    rows = cursor.fetchall()
+
+    for row in rows:
+        print "%s %s" % (row["project_id"], row["project_name"])
+   
+
+except psycopg2.DatabaseError, e:
+    print 'Error %s' % e    
+    sys.exit(1)
+    
+    
+finally:
+    
+    if con:
+        con.close()
